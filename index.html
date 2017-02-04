@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="metronomeApp">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"> </script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-route.js"> </script>	
+	<script src="js/metronomeController.js"></script>
+	<script src="js/metronomeRoute.js"></script>
+	<script src="js/metronomeService.js"></script>
+	<script src="js/metronome.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/metronome.css">
+</head>
+	<body ng-controller="MainCtrl" class="fontStyle appBody">
+		<div id="metronomeBody" 
+		     ng-class="{plain: 'plain', green: 'green', blue: 'blue'}[style]">	
+			<div id="screen" 
+				 ng-class="{plain: 'plainScreen', green: 'greenScreen', blue: 'blueScreen'}[style]">
+				{{tempo.value}}
+			</div>		
+			<div id="styleSelection">
+				<select name="singleSelect" ng-model="style" id="selection" 
+						ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
+					<option value="plain">---Choose Style---</option>
+					<option value="blue">Blue</option>					
+					<option value="green">Forest Green</option>
+					<option value="plain">Plain</option>					
+				</select>
+			</div>
+			<div id="tempoSelector">
+			<span ng-class="{plain: 'whiteFont', green: 'blackFont', blue:'blackFont'}[style]">Tempo: </span>
+				  <input novalidate type="number"
+			   		placeholder="Tempo"
+					ng-model="tempo.value"
+			   		max="{{maxTempo}}"
+			   		min="{{minTempo}}"
+			   		required/>
+			</div>
+			<div id="notes" ng-controller="SubdivisionController">
+				<table>
+					<tr>
+						<td ng-repeat="note in notes" ng-click="subDiv(note.label)"
+							ng-class="{plain: 'plainTable', green: 'greenTable', blue:'blueTable'}[style]"
+							ng-class="getNoteClass(note.selected)"><img ng-src="images/{{note.label}}.png"</img></td>
+					</tr>
+				</table>
+			</div>				
+			<div id="tempoButton" ng-controller="TapTempo">
+				<button id="tap" 
+						ng-click="tapTempo()" 
+						ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
+					Tap Tempo
+				</button>
+			</div>						
+			<div id="startStop">
+				<button id="startStopButton" 
+					 	ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">Start | Stop</button>
+			</div>							
+			<div id="message" ng-controller="TapTempo"><span class="whiteFont">{{message.value}}</span></div>			
+		</div>
+		<br />
+		<div id="api" ng-controller="APIController" class="blackFont"> 
+			<div id="checkbox">
+				<input type="checkbox"
+					   ng-model="checked">Songs With Similar Tempos</input>				 	
+			</div>
+			<br />
+			<div ng-view></div>
+		</div>
+	</body>	
+</html>

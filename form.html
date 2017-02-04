@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="metronomeApp">
+<head>
+<link rel="stylesheet" type="text/css" href="css/metronome.css">
+</head>
+<body>
+	Choose an artist, tempo, or a genre to view results.<br/> 
+	Selection must include artist and tempo, OR tempo and genre.
+	<form ng-submit="submit()" name="userForm" ng-controller="FormController">
+		<br />Artist:
+		<input type="text" novalidate
+				class="tempo"
+				name="artist"
+				ng-model="artist"
+				ng-minlength="2">
+		<br />
+		Tempo:
+		<input type="number" novalidate
+				class="tempo"
+				name="tempo"
+				ng-model="tempo"
+				max="{{maxTempo}}"
+			    min="{{minTempo}}"
+			    required>
+		<br />
+		Genre:
+		<input type="text"
+				class="tempo"
+				name="genre"
+				ng-model="genre"
+				ng-minlength="3">
+		<br />
+		<input type="submit"
+				value="Submit"
+				ng-disabled="userForm.$invalid || !(!!artist || !!genre)">
+	</form>
+</body>
+</html>
