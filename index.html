@@ -27,10 +27,11 @@
 				</select>
 			</div>
 			<div id="tempoSelector">
-			<span ng-class="{plain: 'whiteFont', green: 'blackFont', blue:'blackFont'}[style]">Tempo: </span>
+			<span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">Tempo: </span>
 				  <input novalidate type="number"
 			   		placeholder="Tempo"
 					ng-model="tempo.value"
+					class="tempo"
 			   		max="{{maxTempo}}"
 			   		min="{{minTempo}}"
 			   		required/>
@@ -55,7 +56,9 @@
 				<button id="startStopButton" 
 					 	ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">Start | Stop</button>
 			</div>							
-			<div id="message" ng-controller="TapTempo"><span class="whiteFont">{{message.value}}</span></div>			
+			<div id="message" ng-controller="TapTempo">
+				<span ng-class="{plain: 'blackFont', green: 'whiteFont',blue:'blackFont'}[style]">{{message.value}}</span>
+			</div>			
 		</div>
 		<br />
 		<div id="api" ng-controller="APIController" class="blackFont"> 
