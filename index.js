@@ -6,7 +6,7 @@ var port = 3000
 var access_token = ""
 
 var headers = {
-     'Authorization' : 'Basic NTFhYWM4MDFkNTY1NDg5YTlkYzc3YmI4NDQyMWQzZWE6MTc0MjAzODgxNWZjNDhjOWFjNmVjYWRkZWM0ODJkOGQ=' 
+     'Authorization' : 'Basic your_code_here_' 
 }
 
 // Configure the request
@@ -25,7 +25,7 @@ request(options, function (error, response, body) {
     }
 })
 
-var requestHandler = (request, response) => {  
+var requestHandler = (request, response) => {
   console.log(request.url)
   response.end(access_token)
 }
