@@ -2,9 +2,13 @@ To install:
 
 1) Serve the application directory from a web server and navigate to the root index.html page in your browser.
 
-2) If using the Spotify API with the project, you will need to have node.js installed on the server, and a Spotiy developer id.
+2) If using the Spotify API with the project, you will need to have node.js installed on the server, and a Spotify developer id (base 64 encrypted).
 
-3) With Node installed, type 'node server.js' to start the Node server (this also requires a Spotify developer account) and then browse the app as described in step #1.
+3) To add your key, create a 'env.js' file on the web root and enter the following:
+
+    process.env['ENCRYPTED_KEY'] = "your base 64 encrypted key here"
+
+4) With Node installed, type 'node server.js' to start the Node server (this also requires a Spotify developer account) and then browse the app as described in step #1.
 
 To run the application:
 
