@@ -10,6 +10,6 @@ To run the application:
 
 5) You can adjust the tempo by using the input selector or tapping the ‘tap tempo’ button.
 
-6) You can use an API by clicking the ‘Songs with Similar Tempos’ button.  From here you can follow the instructions and input data.  Submit will return requested results.
+6) You can have a Spotify developer account, you can enable it by plugging in your encrypted key in the 'index.js' file. Then click the ‘Songs with Similar Tempos’ button.  From here you can follow the instructions and input data.  Submit will return requested results.
 
 7) Choose a different style for the metronome by selecting from the drop down.  
