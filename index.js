@@ -6,7 +6,7 @@ var port = 3000
 var access_token = ""
 
 var headers = {
-     'Authorization' : 'Basic NTFhYWM4MDFkNTY1NDg5YTlkYzc3YmI4NDQyMWQzZWE6MTc0MjAzODgxNWZjNDhjOWFjNmVjYWRkZWM0ODJkOGQ=' 
+     'Authorization' : 'Basic your_code_here' 
 }
 
 // Configure the request
