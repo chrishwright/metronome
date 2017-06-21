@@ -1,3 +1,11 @@
+To install:
+
+1) Serve the application directory from a web server and navigate to the root index.html page in your browser.
+
+2) If using the Spotify API with the project, you will need to have node.js installed on the server, and a Spotiy developer id.
+
+3) With Node installed, type 'node server.js' to start the Node server (this also requires a Spotify developer account) and then browse the app as described in step #1.
+
 To run the application:
 
 1) Click the ‘Start/Stop’ button
