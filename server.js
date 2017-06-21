@@ -1,12 +1,14 @@
-// content of index.js
 var http = require('http')
 var request = require('request')
+var access_key = require('./env.js')
 var port = 3000
 
-var access_token = ""
-
 var headers = {
+<<<<<<< HEAD:index.js
      'Authorization' : 'Basic your_code_here_' 
+=======
+     'Authorization' : 'Basic ' + process.env.ENCRYPTED_KEY + ''
+>>>>>>> development:server.js
 }
 
 // Configure the request

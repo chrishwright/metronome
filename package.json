@@ -1,15 +1,26 @@
 {
-  "name": "spotify_access",
+  "name": "metronome",
   "version": "1.0.0",
-  "description": "get access token",
-  "main": "index.js",
+  "description": "To run the application:",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valtera45/metronome.git"
+  },
+  "keywords": [
+    "metronome"
+  ],
   "author": "christopher wright",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valtera45/metronome/issues"
+  },
+  "homepage": "https://github.com/valtera45/metronome#readme",
   "dependencies": {
-    "express": "^4.15.3",
     "request": "^2.81.0"
   }
 }
