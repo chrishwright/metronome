@@ -127,32 +127,57 @@ metronomeApp.controller('TapTempo', ['$scope',function($scope) {
 	};
 }]);
 
-metronomeApp.controller('APIController', ['$scope','HttpService','$location','FormService', function($scope,HttpService,$location,FormService) {
+metronomeApp.controller('APIController', ['$scope','RESTService','$location','FormService', 
+	function($scope,RESTService,$location,FormService) {
 		
 		$scope.items = [];
-									
-		var key = "songList",
-			storedSongs;
 		
 		$scope.$watch('checked', function() {
-		
+
 			if ($scope.checked) {
 				$location.path('/selection');
 			}
 			else {
+				FormService.clearMap();
+				$scope.items = [];
 				$location.path('/');
 			}
 		},true);
 		
+		$scope.doSearch = function() {
+			console.log('in search');
+			FormService.clearMap();
+			$scope.items = [];
+			$location.path('/selection');
+		}
+		
 		$scope.makeApiCall = function() {
-			HttpService.async(FormService.getArtist(),FormService.getTempo(),FormService.getGenre()).then(function(d) {
-				$scope.items = d.response.songs;
-				localStorage.setItem(key, JSON.stringify($scope.items));
+
+			RESTService.getAccessToken().then(function(response) {
+				RESTService.getSongs(response, FormService.getArtist()).then(function(response) {
+
+					var tempo = FormService.getTempo();
+					var minTempo = tempo - 5;
+					var maxTempo = tempo + 5;
+					
+					for(var key in FormService.getKeys()) {
+
+						var obj = FormService.getTrackInfo(key);
+						if(obj.tempo >= minTempo && obj.tempo <= maxTempo) {
+							$scope.items.push(obj);
+						}
+						else {
+							continue;
+						}
+	
+					} // end for loop
+				});
 			});
 		}
 }]);
 
-metronomeApp.controller('FormController', ['FormService','$location','$scope', function(FormService,$location,$scope) {
+metronomeApp.controller('FormController', ['FormService','$location','$scope', 
+	function(FormService,$location,$scope) {
 	
 	$scope.submit = function() {
 		
