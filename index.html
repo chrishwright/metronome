@@ -40,7 +40,6 @@
 				<table>
 					<tr>
 						<td ng-repeat="note in notes" ng-click="subDiv(note.label)"
-							ng-class="{plain: 'plainTable', green: 'greenTable', blue:'blueTable'}[style]"
 							ng-class="getNoteClass(note.selected)"><img ng-src="images/{{note.label}}.png"</img></td>
 					</tr>
 				</table>
