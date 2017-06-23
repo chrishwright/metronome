@@ -138,7 +138,7 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 				$location.path('/selection');
 			}
 			else {
-				FormService.clearMap();
+				FormService.clearTrackInfo();
 				$scope.items = [];
 				$location.path('/');
 			}
@@ -146,7 +146,7 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 		
 		$scope.doSearch = function() {
 			console.log('in search');
-			FormService.clearMap();
+			FormService.clearTrackInfo();
 			$scope.items = [];
 			$location.path('/selection');
 		}
@@ -182,7 +182,6 @@ metronomeApp.controller('FormController', ['FormService','$location','$scope',
 	$scope.submit = function() {
 		
 		FormService.setArtist($scope.artist);
-		FormService.setGenre($scope.genre);
 		FormService.setTempo($scope.tempo);
 		
 		$scope.makeApiCall();

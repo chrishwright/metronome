@@ -3,9 +3,7 @@ window.onload = function() {
 	button.onclick = startStopMetronome;	
 }
 
-var start = new Date().getTime(),
-	time = 0,
-	flag,
+var time = 0,
 	timeoutId,
 	strongBeat = 1,
 	weakBeat = 2,
