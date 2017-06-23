@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
 var access = require('./lib/access');
-var port = 3000;
+var port = 5000;
 var cache = {};
 
 function send404(response) {
