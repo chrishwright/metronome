@@ -2,3 +2,4 @@
 .Trashes
 Thumbs.db
 env.js
+*.log
