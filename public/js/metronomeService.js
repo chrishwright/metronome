@@ -181,7 +181,7 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 	 **/
 	self.getAccessToken = function() {
 
-		var prefix = "'https://fathomless-castle-50235.herokuapp.com/access_token";
+		var prefix = "access_token";
 
 		var defer = $q.defer();
 
