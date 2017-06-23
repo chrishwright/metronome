@@ -4,15 +4,13 @@ desired tempo.
 
 To install:
 
-1) Serve the application directory from a web server and navigate to the root index.html page in your browser.
+1) Node must first be installed on the server.  Once installed, navigate to the metronome directory and type: npm start
 
-2) If using the 'Song Tempo Lookup' feature, you will need to have node.js installed on the server, and a Spotify developer id (base 64 encrypted).
+2) If using the 'Song Tempo Lookup' feature, you will need to have a Spotify developer id (base 64 encrypted).
 
-3) To add your key, create a 'env.js' file on the web root and enter the following:
+3) To add your key, create a '.env' file in the metronome root and enter the following:
 
     process.env['ENCRYPTED_KEY'] = "your base 64 encrypted key here"
-
-4) With Node installed, type 'node server.js' to start the Node server (this also requires a Spotify developer account) and then browse the app as described in step #1.
 
 To run the application:
 
@@ -26,6 +24,7 @@ To run the application:
 
 5) You can adjust the tempo by using the input selector or tapping the ‘tap tempo’ button.
 
-6) If you have a Spotify developer account, you can enable it by plugging in your encrypted key in the 'env.js' file. Then click the ‘Song Tempo Lookup’ button.  From here you can follow the instructions and input data.  Submit will return requested results.
+6) If using the 'Song Tempo Lookup' function, refer to the installation instructions.  Then click the ‘Song Tempo Lookup’ button.  
+From here you can follow the instructions and input data.  Submit will return requested results.
 
 7) Choose a different style for the metronome by selecting from the drop down.  
