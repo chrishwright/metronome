@@ -3,10 +3,10 @@ metronomeApp.service('FormService', function() {
 	var artist,
 		tempo,
 		genre,
-		map = {};
+		trackInfo = {};
 		
 	this.updateMap = function(songInfo) {
-		map[songInfo.id] = {    
+		trackInfo[songInfo.id] = {    
 			title : songInfo.name, 
 			tempo : songInfo.tempo,
 			album : songInfo.album,
@@ -15,44 +15,37 @@ metronomeApp.service('FormService', function() {
 	};
 	
 	this.getKeys = function() {
-		return map;
+		return trackInfo;
 	};
 	
-	this.clearMap = function() {
-		this.map = {};
+	this.clearTrackInfo = function() {
+		this.trackInfo = {};
 	}
 	
 	this.getTrackInfo = function(id) {
-		return map[id];
+		return trackInfo[id];
 	};
 	
 	this.updateTrackInfo = function(id, tempo) {
-		map[id].tempo = tempo;
+		trackInfo[id].tempo = tempo;
 	}
 		
 	this.setArtist = function(sArtist) {	
 		artist = sArtist;	
 	};
 	
+	this.getArtist = function() {
+		return artist;
+	};	
+	
 	this.setTempo = function(sTempo) {
 		tempo = sTempo;
-	};
-	
-	this.setGenre = function(sGenre) {
-		genre = sGenre;
 	};
 	
 	this.getTempo = function() {
 		return tempo;
 	};
-	
-	this.getArtist = function() {
-		return artist;
-	};
-	
-	this.getGenre = function() {
-		return genre;
-	};
+
 });
 
 angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormService', function($q,$http, FormService) {

@@ -4,11 +4,7 @@ var access_key = require('./env.js')
 var port = 3000
 
 var headers = {
-<<<<<<< HEAD:index.js
-     'Authorization' : 'Basic your_code_here_' 
-=======
      'Authorization' : 'Basic ' + process.env.ENCRYPTED_KEY + ''
->>>>>>> development:server.js
 }
 
 // Configure the request
