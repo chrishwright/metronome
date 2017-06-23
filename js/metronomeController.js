@@ -150,30 +150,37 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 			$scope.items = [];
 			$location.path('/selection');
 		}
-		
+
 		$scope.makeApiCall = function() {
+		
+			$scope.message = '';
 
 			RESTService.getAccessToken().then(function(response) {
-				RESTService.getSongs(response, FormService.getArtist()).then(function(response) {
-
-					var tempo = FormService.getTempo();
-					var minTempo = tempo - 5;
-					var maxTempo = tempo + 5;
+				RESTService.getSongs(response, FormService.getArtist()).then(function(response2) {
 					
-					for(var key in FormService.getKeys()) {
+					if(response2[0] == null) {
+						$scope.message = 'No artist found.';
+					}
+					else {
+						var tempo = FormService.getTempo();
+						var minTempo = tempo - 5;
+						var maxTempo = tempo + 5;
+					
+						for(var key in FormService.getKeys()) {
 
-						var obj = FormService.getTrackInfo(key);
-						if(obj.tempo >= minTempo && obj.tempo <= maxTempo) {
-							$scope.items.push(obj);
-						}
-						else {
-							continue;
-						}
+							var obj = FormService.getTrackInfo(key);
+							if(obj.tempo >= minTempo && obj.tempo <= maxTempo) {
+								$scope.items.push(obj);
+							}
+							else {
+								continue;
+							}
 	
-					} // end for loop
-				});
-			});
-		}
+						} // end for loop
+					} // end if/else
+				}); // end inner promise
+			}); // end outer promise
+		} // end method makeApiCall
 }]);
 
 metronomeApp.controller('FormController', ['FormService','$location','$scope', 

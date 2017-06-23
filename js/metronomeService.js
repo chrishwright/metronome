@@ -158,16 +158,19 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 				//console.log(response);
 				track_information = response.data.audio_features;
 				
-				for(var i = 0; i < track_information.length; i++) {				
-					//console.log(track_information[i]);
-					FormService.updateTrackInfo(track_information[i].id, track_information[i].tempo);				
-				}											
+				if(track_information[0] != null) {
+					for(var i = 0; i < track_information.length; i++) {				
+						//console.log(track_information[i]);
+						FormService.updateTrackInfo(track_information[i].id, track_information[i].tempo);				
+					}											
+				} // end if
 				
 				defer.resolve(track_information);
 			});
 			
 		}), function(errResponse) {
 			console.error(errResponse);
+			$q.reject(errResponse);
 		};
 		
 		return defer.promise;
