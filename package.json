@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/valtera45/metronome#readme",
   "dependencies": {
+    "mime": "~1.2.7",
     "request": "^2.81.0"
   }
 }

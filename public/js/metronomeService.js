@@ -142,14 +142,14 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 						} // end else
 						
 					} // end inner for
-					
+
 				});
 			} // end outer for loop
-			
+
 			return song_ids;
-			
+
 		}).then(function(response) {
-			
+
 			var song_ids_short = song_ids.slice(0, 100); // to make the list length of 100 per spec
 			song_ids_short = song_ids_short.join(','); // for comma separated list 
 			config['params'] = { ids : song_ids_short };
@@ -164,34 +164,34 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 						FormService.updateTrackInfo(track_information[i].id, track_information[i].tempo);				
 					}											
 				} // end if
-				
+
 				defer.resolve(track_information);
 			});
-			
+
 		}), function(errResponse) {
 			console.error(errResponse);
 			$q.reject(errResponse);
 		};
-		
+
 		return defer.promise;
 	}; // end method getSongs()
-	
+
 	/**
 	 * get the access token to harness metadata api
 	 **/
 	self.getAccessToken = function() {
-		
-		var prefix = "http://localhost:3000/";
-		
+
+		var prefix = "http://https://fathomless-castle-50235.herokuapp.com/:3000/access_token";
+
 		var defer = $q.defer();
-		
+
 		$http.get(prefix).success(function(data) {
 			defer.resolve(data);
 		}).error(function(err) {
 			console.error(err);
 		});
-		
+
 		return defer.promise;
 	}; // end method getAccessToken
-	
+
 }]);

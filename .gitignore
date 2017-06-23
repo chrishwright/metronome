@@ -1,5 +1,5 @@
 .DS_Store
 .Trashes
 Thumbs.db
-env.js
 *.log
+.env
