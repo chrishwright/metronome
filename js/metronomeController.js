@@ -16,8 +16,8 @@ metronomeApp.controller('MainCtrl',['$scope',function($scope) {
 		
 		else {			
 			$scope.message.value = '';
-			bpm = $scope.tempo.value;			
-		}					
+			bpm = $scope.tempo.value;
+		}
 	}, true);
 }]);
 
@@ -29,13 +29,13 @@ metronomeApp.controller('SubdivisionController', ['$scope', function($scope) {
 		{label: 'sixteenth', selected: false}	
 	]
 	
-	$scope.getNoteClass = function(status) {		
-		return { note_highlight : status };		
+	$scope.getNoteClass = function(status) {
+		return { note_highlight : status };
 	};
 
 	$scope.subDiv = function(value) {
-				
-		switch (value) {		
+
+		switch (value) {
 			case 'quarter':
 				subdivision = 1;
 				$scope.notes[0].selected = true;

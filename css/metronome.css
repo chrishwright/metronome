@@ -55,9 +55,11 @@ html,body {
 }
 
 .note_highlight {
+
 	-webkit-box-shadow: 0 9px 7px -5px #000;
 	   -moz-box-shadow: 0 9px 7px -5px #000;
 	        box-shadow: 0 9px 7px -5px #000;
+	        
 }
 
 .green { 
@@ -66,7 +68,8 @@ html,body {
 	opacity: .9;
 	-moz-box-shadow:    inset 0px 0px 10px 1px #fff;
     -webkit-box-shadow: inset 0px 0px 10px 1px #fff;
-    box-shadow:         inset 0px 0px 10px 1px #fff;	
+    box-shadow:         inset 0px 0px 10px 1px #fff;
+    
 }
 
 .greenScreen { 

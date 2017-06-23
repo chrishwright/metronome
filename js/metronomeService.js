@@ -34,25 +34,18 @@ metronomeApp.service('FormService', function() {
 		artist = sArtist;	
 	};
 	
+	this.getArtist = function() {
+		return artist;
+	};	
+	
 	this.setTempo = function(sTempo) {
 		tempo = sTempo;
-	};
-	
-	this.setGenre = function(sGenre) {
-		genre = sGenre;
 	};
 	
 	this.getTempo = function() {
 		return tempo;
 	};
-	
-	this.getArtist = function() {
-		return artist;
-	};
-	
-	this.getGenre = function() {
-		return genre;
-	};
+
 });
 
 angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormService', function($q,$http, FormService) {

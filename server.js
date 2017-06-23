@@ -1,7 +1,7 @@
 var http = require('http')
 var request = require('request')
 var access_key = require('./env.js')
-var port = 3000
+var port = 5000
 
 var headers = {
      'Authorization' : 'Basic ' + process.env.ENCRYPTED_KEY + ''
@@ -23,7 +23,7 @@ request(options, function (error, response, body) {
     }
 })
 
-var requestHandler = (request, response) => {  
+var requestHandler = (request, response) => {
   console.log(request.url)
   response.end(access_token)
 }
