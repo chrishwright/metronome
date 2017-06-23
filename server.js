@@ -1,47 +1,78 @@
-var http = require('http')
-var request = require('request')
-var access_key = require('./env.js')
-var port = 3000
+var http = require('http');
+var fs = require('fs');
+var path = require('path');
+var mime = require('mime');
+var access = require('./lib/access');
+var port = 3000;
+var cache = {};
 
-var headers = {
-     'Authorization' : 'Basic ' + process.env.ENCRYPTED_KEY + ''
-}
+function send404(response) {
+    
+    response.writeHead(404, {'Content-Type':'text/plain'});
+    response.write('Error 404: resource not found.');
+    response.end();
 
-// Configure the request
-var options = {
-    url: 'https://accounts.spotify.com/api/token',
-    method: 'POST',
-    headers: headers,
-    form: { 'grant_type' : 'client_credentials' }
-}
+}; // end send404()
 
-// Start the request
-request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var json = JSON.parse(body);
-        access_token = json["access_token"];
+function sendFile(response, filePath, fileContents) {
+
+    response.writeHead(200, {"Content-Type": mime.lookup(path.basename(filePath))});
+    response.end(fileContents);
+
+}; // end sendFile()
+
+function serveStatic(response, cache, absPath) {
+
+    if(cache[absPath]) {
+        sendFile(response, absPath, cache[absPath]);
+    } else {
+        fs.exists(absPath, function(exists) {
+            if(exists) {
+                fs.readFile(absPath, function(err, data) {
+                    if(err) {
+                        send404(response);
+                    } else {
+                        cache[absPath] = data;
+                        sendFile(response, absPath, data);
+                    }
+                }); // end fs.readFile()
+            } else {
+                send404(response);
+            }
+        }); // end fs.exists()
     }
-})
-
-var requestHandler = (request, response) => {
-  console.log(request.url)
-  response.end(access_token)
-}
+}; // end serveStatic()
 
 var server = http.createServer(function(request, response) {
-	response.setHeader('Access-Control-Allow-Origin', 'http://www.metronome.com');
+
+	response.setHeader('Access-Control-Allow-Origin', 'https://fathomless-castle-50235.herokuapp.com/');
 	response.setHeader('Access-Control-Request-Method', '*');
 	response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
 	response.setHeader('Access-Control-Allow-Headers', '*');
-  	response.writeHead(200, {"Content-Type": "text/html"});
-    response.write(access_token);
-    response.end();
-});
 
-server.listen(port, (err) => {  
-  if (err) {
-    return console.log('something bad happened', err)
-  }
+    var filePath = false;
+    
+    if(request.url == '/access_token') {
+    	var access_token = access.getAccessToken();
+	  	response.writeHead(200, {"Content-Type": "text/html"});
+    	response.write(access_token);
+    	response.end();    	
+    } else if(request.url == '/') {
+        filePath = 'public/index.html';
+    } else {
+        filePath = 'public' + request.url;
+    }
 
-  console.log(`server is listening on ${port}`)
-})
+    var absPath = './' + filePath;
+    
+    if(filePath != false) {
+	    serveStatic(response, cache, absPath);
+	}
+
+}); // end createServer()
+
+server.listen(port, function() {
+    
+    console.log(`Server is listening on port ${port}`);
+
+}); // end listen()

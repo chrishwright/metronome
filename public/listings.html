@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<table ng-hide="!checked">
+		<button data-ng-click="doSearch()">Search again</button>
+		<br /><br />
+		<thead>
+			<tr>
+				<td>Artist</td>
+				<td>Song Title</td>
+				<td>Album</td>
+				<td>Tempo</td>
+			</tr>
+		</thead>
+		<tr ng-repeat="item in items"
+			ng-class="{plain: 'plainTable', green: 'greenTable',black:'blackTable'}[style]">
+			<td>{{item.artist}}</td>
+			<td>{{item.title}}</td>
+			<td>{{item.album}}</td>
+			<td>{{item.tempo | number: 0}}</td>
+		</tr>
+	</table>
+	<br />{{message}}
+</body>
+</html>
