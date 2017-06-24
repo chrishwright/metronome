@@ -83,24 +83,18 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 
 		config.params.q = search_string;
 		config.params.type = search_type;
-		config.params.limit = 1; // limit is set to 1 because 1st result is most relevant
 		config.headers = {'Authorization': 'Bearer ' + access_token};
+		
+		if(search_type === 'artist')
+			config.params.limit = 1; // limit is set to 1 because 1st result is most relevant
+		else
+			config.params.limit = 15;
 
 		$http.get(prefix + 'search', config).then(function(response) {
 
 			if(search_type ==='artist')
 				defer.resolve(response.data.artists.items["0"]);
 			else {
-				// if we searched based on track, we have the album name
-				var tempObj = {
-					id: response.data.tracks.items[0].id,
-					name: response.data.tracks.items[0].name,
-					album: response.data.tracks.items[0].album.name,
-					artist: response.data.tracks.items[0].artists[0].name,
-					tempo: null // no tempo yet
-				};
-
-				FormService.updateMap(tempObj);	
 				defer.resolve(response.data.tracks.items);
 			}
 		}), function(errResponse) {
@@ -215,14 +209,24 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
     **/
 	self.getAudioInformation = function(songs) {
 
-		var defer = $q.defer();
-		if(typeof songs === 'object') {
-			var song_ids_short = song_ids.slice(0, 100); // Spotify API 100 song query limit
-			song_ids_short = song_ids_short.join(','); // for comma separated list
-			config['params'] = { ids : song_ids_short };
+		if(songs != null && song_ids.length == 0) {
+			for(var i = 0; i < songs.length; i++) {
+				var tempObj = {
+					id : songs[i].id,
+					name : songs[i].name,
+					album : songs[i].album.name,
+					artist : songs[i].artists[0].name,
+					tempo : null // no tempo yet
+				};
+				FormService.updateMap(tempObj);
+				song_ids.push(songs[i].id);
+			}
 		}
-		else
-			config['params'] = { ids : songs };
+
+		var defer = $q.defer();
+		var song_ids_short = song_ids.slice(0, 100); // Spotify API 100 song query limit
+		song_ids_short = song_ids_short.join(','); // for comma separated list
+		config['params'] = { ids : song_ids_short };
 
 		$http.get(prefix + 'audio-features', config).then(function(response) {
 
@@ -236,11 +240,13 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 			} // end if
 
 			defer.resolve(track_information);
-		});		
+		});
 		
+		song_ids = [];
+
 		return defer.promise;
 	};
-	
+
    /**
     * calls a chain of functions to get the audio information for each song
     * @param {access_token} the token to pass to Spotify api
@@ -275,10 +281,10 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 	 	
 	 	var defer = $q.defer();
 	 
-	 	self.search(access_token, song_title, 'track').then(function(song) {
-			return song;
-	 	}).then(function(song) {
-	 		defer.resolve(self.getAudioInformation(song[0].id));
+	 	self.search(access_token, song_title, 'track').then(function(songs) {
+			return songs;
+	 	}).then(function(songs) {
+	 		defer.resolve(self.getAudioInformation(songs));
 	 	});
 		
 		return defer.promise;
