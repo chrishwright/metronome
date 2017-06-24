@@ -1,3 +1,4 @@
+require('dotenv').config();
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
@@ -45,7 +46,7 @@ function serveStatic(response, cache, absPath) {
 
 var server = http.createServer(function(request, response) {
 
-	response.setHeader('Access-Control-Allow-Origin', '//fathomless-castle-50235.herokuapp.com/');
+	response.setHeader('Access-Control-Allow-Origin', process.env.SERVER_NAME);
 	response.setHeader('Access-Control-Request-Method', '*');
 	response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
 	response.setHeader('Access-Control-Allow-Headers', '*');
