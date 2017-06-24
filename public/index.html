@@ -63,7 +63,15 @@
 		<div id="api" ng-controller="APIController" class="blackFont"> 
 			<div id="checkbox">
 				<input type="checkbox"
-					   ng-model="checked">Song Tempo Lookup</input>				 	
+					   ng-model="artistCheckBox"
+					   ng-change="changeRoute(artistCheckBox)"
+					   ng-true-value="artist"
+					   ng-false-value="false">Lookup Tempo by Artist</input>
+				<input  type="checkbox"
+						ng-model="songTitleCheckBox"
+						ng-change="changeRoute(songTitleCheckBox)"
+						ng-true-value="song"
+						ng-false-value="notSong">Lookup Tempo by Song Title</input>
 			</div>
 			<br />
 			<div ng-view></div>

@@ -129,35 +129,45 @@ metronomeApp.controller('TapTempo', ['$scope',function($scope) {
 
 metronomeApp.controller('APIController', ['$scope','RESTService','$location','FormService', 
 	function($scope,RESTService,$location,FormService) {
-		
-		$scope.items = [];
-		
-		$scope.$watch('checked', function() {
 
-			if ($scope.checked) {
-				$location.path('/selection');
-			}
-			else {
-				FormService.clearTrackInfo();
-				$scope.items = [];
-				$location.path('/');
-			}
-		},true);
+		$scope.items = [];
+		$scope.artistCheckBox = false;
+		$scope.songTitleCheckBox = false;
 		
+		$scope.changeRoute = function(type) {
+
+			switch(type) {
+				case 'song':
+					$location.path('/song_tempo_selection');
+					$scope.artistCheckBox = false;
+					break;
+				case 'notSong':
+				case 'notArtist':
+					$location.path('/');
+					break;
+				case 'artist':
+					$scope.songTitleCheckBox = false;
+					$location.path('/artist_tempo_selection');
+					break;
+			}
+		};
+
 		$scope.doSearch = function() {
-			console.log('in search');
-			FormService.clearTrackInfo();
-			$scope.items = [];
-			$location.path('/selection');
+			
+			if($scope.songTitleCheckBox)
+				$location.path('/song_tempo_selection');
+			else
+				$location.path('/artist_tempo_selection');
 		}
 
-		$scope.makeApiCall = function() {
-		
+		$scope.getSongsByArtist = function() {
+
 			$scope.message = '';
+			$scope.items = [];
+			FormService.clearTrackInfo();
 
 			RESTService.getAccessToken().then(function(response) {
-				RESTService.getSongs(response, FormService.getArtist()).then(function(response2) {
-					
+				RESTService.getSongsByArtist(response, FormService.getArtist()).then(function(response2) {
 					if(response2[0] == null) {
 						$scope.message = 'No artist found.';
 					}
@@ -180,20 +190,44 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 					} // end if/else
 				}); // end inner promise
 			}); // end outer promise
-		} // end method makeApiCall
+		} // end method getSongsByArtist
+		
+		$scope.getSongsByTitle = function() {
+		
+			$scope.message = '';
+			$scope.items = [];
+			FormService.clearTrackInfo();			
+			
+			RESTService.getAccessToken().then(function(response) {
+				RESTService.getSongsByTitle(response, FormService.getSongTitle()).then(function(songInfo) {
+					var obj = FormService.getTrackInfo(songInfo[0].id);
+					$scope.items.push(obj);
+				});
+			});		
+		}; // end method getSongsByTitle
 }]);
 
 metronomeApp.controller('FormController', ['FormService','$location','$scope', 
 	function(FormService,$location,$scope) {
 	
-	$scope.submit = function() {
+	$scope.submitArtist = function() {
 		
 		FormService.setArtist($scope.artist);
 		FormService.setTempo($scope.tempo);
 		
-		$scope.makeApiCall();
+		$scope.getSongsByArtist();
 		
 		$location.path('/listings');
 					
+	};
+	
+	$scope.submitSong = function() {
+	
+		FormService.setSongTitle($scope.song_title);
+		
+		$scope.getSongsByTitle();
+		
+		$location.path('/listings');
+		
 	};
 }]);
