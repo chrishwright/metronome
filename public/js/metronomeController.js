@@ -134,6 +134,11 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 		$scope.artistCheckBox = false;
 		$scope.songTitleCheckBox = false;
 		
+		$scope.$watch('message', function() {
+			if($scope.message.value === '' && $location.url() === '/listings')
+				$location.path('/');
+		}, true);
+		
 		$scope.changeRoute = function(type) {
 
 			switch(type) {
@@ -200,8 +205,11 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 			
 			RESTService.getAccessToken().then(function(response) {
 				RESTService.getSongsByTitle(response, FormService.getSongTitle()).then(function(songInfo) {
-					var obj = FormService.getTrackInfo(songInfo[0].id);
-					$scope.items.push(obj);
+					console.log(songInfo);
+					for(var key in FormService.getKeys()) {
+						var obj = FormService.getTrackInfo(key);
+						$scope.items.push(obj);
+					} // end for loop
 				});
 			});		
 		}; // end method getSongsByTitle
