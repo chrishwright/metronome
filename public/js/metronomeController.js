@@ -129,42 +129,42 @@ metronomeApp.controller('TapTempo', ['$scope',function($scope) {
 
 metronomeApp.controller('APIController', ['$scope','RESTService','$location','FormService', 
 	function($scope,RESTService,$location,FormService) {
-		
-		$scope.items = [];
-		
-		$scope.$watch('artistCheckBox', function() {
 
-			if ($scope.artistCheckBox) {
-				$location.path('/artist_tempo_selection');
-			}
-			else {
-				FormService.clearTrackInfo();
-				$scope.items = [];
-				$location.path('/');
-			}
-		},true);
+		$scope.items = [];
+		$scope.artistCheckBox = false;
+		$scope.songTitleCheckBox = false;
 		
-		$scope.$watch('songTitleCheckBox', function() {
-		
-			if($scope.songTitleCheckBox) {
-				$location.path('/song_tempo_selection');
+		$scope.changeRoute = function(type) {
+
+			switch(type) {
+				case 'song':
+					$location.path('/song_tempo_selection');
+					$scope.artistCheckBox = false;
+					break;
+				case 'notSong':
+				case 'notArtist':
+					$location.path('/');
+					break;
+				case 'artist':
+					$scope.songTitleCheckBox = false;
+					$location.path('/artist_tempo_selection');
+					break;
 			}
-			else {
-				FormService.clearTrackInfo();
-				$scope.items = [];
-				$location.path('/');
-			}
-		}, true);
-		
+		};
+
 		$scope.doSearch = function() {
-			FormService.clearTrackInfo();
-			$scope.items = [];
-			$location.path('/artist_tempo_selection');
+			
+			if($scope.songTitleCheckBox)
+				$location.path('/song_tempo_selection');
+			else
+				$location.path('/artist_tempo_selection');
 		}
 
 		$scope.getSongsByArtist = function() {
 
 			$scope.message = '';
+			$scope.items = [];
+			FormService.clearTrackInfo();
 
 			RESTService.getAccessToken().then(function(response) {
 				RESTService.getSongsByArtist(response, FormService.getArtist()).then(function(response2) {
@@ -195,10 +195,13 @@ metronomeApp.controller('APIController', ['$scope','RESTService','$location','Fo
 		$scope.getSongsByTitle = function() {
 		
 			$scope.message = '';
+			$scope.items = [];
+			FormService.clearTrackInfo();			
 			
 			RESTService.getAccessToken().then(function(response) {
-				RESTService.getSongsByTitle(response, FormService.getSongTitle()).then(function(response2) {
-					console.log(response2);
+				RESTService.getSongsByTitle(response, FormService.getSongTitle()).then(function(songInfo) {
+					var obj = FormService.getTrackInfo(songInfo[0].id);
+					$scope.items.push(obj);
 				});
 			});		
 		}; // end method getSongsByTitle
