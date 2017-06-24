@@ -2,7 +2,7 @@ metronomeApp.service('FormService', function() {
 	
 	var artist,
 		tempo,
-		genre,
+		song_title,
 		trackInfo = {};
 		
 	this.updateMap = function(songInfo) {
@@ -36,7 +36,15 @@ metronomeApp.service('FormService', function() {
 	
 	this.getArtist = function() {
 		return artist;
-	};	
+	};
+	
+	this.setSongTitle = function(songTitle) {
+		song_title = songTitle;
+	};
+	
+	this.getSongTitle = function() {
+		return song_title;
+	};
 	
 	this.setTempo = function(sTempo) {
 		tempo = sTempo;
@@ -51,6 +59,7 @@ metronomeApp.service('FormService', function() {
 angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormService', function($q,$http, FormService) {
 
 	var self = this;
+	var prefix = 'https://api.spotify.com/v1/';
 	self.albums = [];
 	self.access_token = "";
 	
@@ -59,13 +68,13 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 	 * @param {artist} the artist that is to be retrieved
 	 *
 	 **/
-	self.getSongs = function(access_token, artist) {
+	self.getSongsByArtist = function(access_token, artist) {
 	
-		var prefix = 'https://api.spotify.com/v1/';
+		
 		var song_ids = [];
+		var defer = $q.defer();
 		var songs = {}; // map type used to keep track of song duplicates
 		var track_information = [];
-		var defer = $q.defer();
 		
 		var config = {
 		
@@ -79,18 +88,19 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 
 		// search for the artist to get the spotify id of artist		
 		$http.get(prefix + 'search', config).then(function(response) {	
+			
 			delete config.params.q;
 			delete config.params.type;
 			config.params.limit = 50;
 			config.params.market = 'us';
 			config.params.album_type = 'album';
-			return $http.get(prefix + 'artists/' + response.data.artists.items["0"].id + '/albums', config);		
-
+			return $http.get(prefix + 'artists/' + response.data.artists.items["0"].id + '/albums', config);
+			
 		}).then(function(response) {
 			
 			// next find the albums with the artist id
-			var innerPromise = $q.defer();
 			albums = response.data.items;
+			var innerPromise = $q.defer();
 			var promises = [];
 			
 			delete config.params.market;
@@ -108,10 +118,11 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 			return innerPromise.promise;
 		
 		}).then(function(response) {
-			//console.log(response); // this is a promise object
+			// returned is an array of promise objects
+			// next we traverse through all the albums to get each albums' tracks
 			var firstIteration = true;
 			var album_counter = 0;	
-			// here we traverse every album of the band
+
 			for(var i = 0; i < response.length; i++) {
 				// here we traverse every song on each album
 				response[i].then(function(tracks) {										
@@ -150,19 +161,19 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 
 		}).then(function(response) {
 
-			var song_ids_short = song_ids.slice(0, 100); // to make the list length of 100 per spec
+			var song_ids_short = song_ids.slice(0, 100); // Spotify API 100 song query limit
 			song_ids_short = song_ids_short.join(','); // for comma separated list 
 			config['params'] = { ids : song_ids_short };
-			
+
 			$http.get(prefix + 'audio-features', config).then(function(response) {
-				//console.log(response);
+
+				// here we get the audio information for each track
 				track_information = response.data.audio_features;
 				
 				if(track_information[0] != null) {
-					for(var i = 0; i < track_information.length; i++) {				
-						//console.log(track_information[i]);
+					for(var i = 0; i < track_information.length; i++) {	
 						FormService.updateTrackInfo(track_information[i].id, track_information[i].tempo);				
-					}											
+					}
 				} // end if
 
 				defer.resolve(track_information);
@@ -174,7 +185,35 @@ angular.module('metronomeApp').service('RESTService', ['$q','$http', 'FormServic
 		};
 
 		return defer.promise;
-	}; // end method getSongs()
+	}; // end method getSongsByArtist()
+	
+	/**
+	 *
+	 **/
+	 self.getSongsByTitle = function(access_token, song_title) {
+	 	
+	 	var defer = $q.defer();
+	 
+	 	var config = {
+		
+			headers : {'Authorization' : 'Bearer ' + access_token },
+			params : { 
+				q : song_title,
+				type : 'track',
+				market : 'us',
+				limit : 50
+			}
+		};
+
+		// search for the artist to get the spotify id of artist		
+		$http.get(prefix + 'search', config).then(function(response) {
+			defer.resolve(response);
+		}) ,function(errResponse) {
+			console.error(errResponse);
+		};
+		
+		return defer.promise;
+	 };
 
 	/**
 	 * get the access token to harness metadata api
