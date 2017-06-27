@@ -1,6 +1,7 @@
 html,body {
 
 	width:100%;
+	height:100%;
 	margin: 0;
 	background-color: #fafafa;
 
@@ -10,7 +11,7 @@ html,body {
     font-family: AvenirNextLTPro-Regular;
     src: url('../fonts/avenir-next-regular.woff');
 }
-
+/*
 .tempo.ng-valid.ng-dirty { 
 
 	background-color: #36DBCA;
@@ -32,7 +33,7 @@ html,body {
 	color: #FFF;
 
 }
-
+*/
 .blackFont {
 
 	color:#000;
@@ -173,10 +174,10 @@ html,body {
 #metronomeBody {
 
 	position: relative;
-	width: 358px;
+	width: 550px;
 	height: 400px;
 	margin: 0 auto;
-	margin-top: 25px;
+
 }
 
 #screen {
@@ -321,6 +322,6 @@ html,body {
 
 	#metronomeBody {
 		width: 100%;
-		max-width: 358px;
+		min-height:500px;
 	}
 }
