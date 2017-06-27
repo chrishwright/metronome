@@ -49,7 +49,7 @@ function Click(context) {
 	
 		this.setup();
 		this.osc.frequency.setValueAtTime(frequency, time);
-		this.gain.gain.setValueAtTime(.2, time);
+		this.gain.gain.setValueAtTime(.4, time);
 		this.osc.frequency.exponentialRampToValueAtTime(0.001, time + 0.5);
 		this.gain.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
 		this.osc.start(time);
