@@ -1,7 +1,6 @@
 html,body {
 
 	width:100%;
-	height:100%;
 	margin: 0;
 	background-color: #fafafa;
 
@@ -174,10 +173,10 @@ html,body {
 #metronomeBody {
 
 	position: relative;
-	width: 550px;
+	width: 358px;
 	height: 400px;
 	margin: 0 auto;
-
+	margin-top: 25px;
 }
 
 #screen {
@@ -322,6 +321,6 @@ html,body {
 
 	#metronomeBody {
 		width: 100%;
-		min-height:500px;
+		max-width: 358px;
 	}
 }
