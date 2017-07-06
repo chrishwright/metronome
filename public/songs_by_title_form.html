@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html ng-app="metronomeApp">
+
 <head>
-<link rel="stylesheet" type="text/css" href="css/metronome.css">
+    <link rel="stylesheet" type="text/css" href="css/metronome.css">
 </head>
+
 <body>
-	Choose a song and tempo to view results.<br/> 
-	<form ng-submit="submitSong()" name="songForm" ng-controller="FormController">
-		<br />Song:
-		<input type="text" novalidate
-				class="tempo"
-				name="song_title"
-				ng-model="song_title"
-				ng-minlength="3"
-				required>
-		<br />
-		<input type="submit"
-				value="Submit"
-				ng-disabled="songForm.$invalid || !(song_title)">
-	</form>
+    Choose a song and tempo to view results.<br/>
+    <form ng-submit="submitSong()" name="songForm" ng-controller="FormController">
+        <br />Song:
+        <input type="text" novalidate class="tempo" name="song_title" ng-model="song_title" ng-minlength="3" required>
+        <br />
+        <input type="submit" value="Submit" ng-disabled="songForm.$invalid || !(song_title)">
+    </form>
 </body>
+
 </html>
