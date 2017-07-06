@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="metronomeApp">
+<html data-ng-app="metronomeApp">
 
 <head>
     <script src="js/angular.min.js"></script>
@@ -15,54 +15,56 @@
     <meta charset="UTF-8">
 </head>
 
-<body ng-controller="MainCtrl as ctrl" class="fontStyle">
-    <div id="metronomeBody" ng-class="{plain: 'plain', green: 'green', blue: 'blue'}[style]">
-        <div id="screen" ng-class="{plain: 'plainScreen', green: 'greenScreen', blue: 'blueScreen'}[style]">
+<body data-ng-controller="MainCtrl as ctrl" class="fontStyle">
+    <div id="metronomeBody" data-ng-class="{plain: 'plain', grayBlue: 'grayBlue', blue: 'blue'}[style]">
+        <div id="screen" data-ng-class="{plain: 'plainScreen', grayBlue: 'grayBlueScreen', blue: 'blueScreen'}[style]">
             <span class="largeFont"><b>{{tempo.value}}</b></span>
             <span class="grayFont">bpm</span>
             <div>
-                <span ng-repeat="note in notes" data-ng-class="ctrl.getNoteClass(note.selected)">{{note.label}}</span>
+                <span data-ng-repeat="note in notes" data-ng-class="ctrl.getNoteClass(note.selected)">{{note.label}}</span>
             </div>
         </div>
         <div id="styleSelection">
-            <select name="singleSelect" ng-model="style" id="selection" ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
+            <select name="singleSelect" data-ng-model="style" id="selection" data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
 					<option value="plain">---Choose Style---</option>
-					<option value="blue">Blue</option>					
-					<option value="green">Forest Green</option>
+					<option value="blue">Blue</option>
+					<option value="grayBlue">Grayish Blue</option>
 					<option value="plain">Plain</option>					
 				</select>
         </div>
         <div id="tempoSelector">
-            <span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">{{minTempo}}</span>
-            <input type="range" ng-model="tempo.value" max="{{maxTempo}}" min="{{minTempo}}" />
-            <span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">{{maxTempo}}</span>
+            <span data-ng-class="{plain: 'blackFont', grayBlue: 'whiteFont', blue:'whiteFont'}[style]">{{minTempo}}</span>
+            <input type="range" data-ng-model="tempo.value" max="{{maxTempo}}" min="{{minTempo}}" />
+            <span data-ng-class="{plain: 'blackFont', grayBlue: 'whiteFont', blue:'whiteFont'}[style]">{{maxTempo}}</span>
         </div>
-        <div id="notes" ng-controller="SubdivController">
-            <span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">Subdivision</span>
-            <button><i class="fa fa-circle" aria-hidden="true" ng-click="changeSubDiv()"></i></button>
+        <div id="notes" data-ng-controller="SubdivController">
+            <span data-ng-class="{plain: 'blackFont', grayBlue: 'whiteFont', blue:'whiteFont'}[style]">Subdivision</span>
+            <button data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
+                <i class="fa fa-long-arrow-right" aria-hidden="true" data-ng-click="changeSubDiv()"></i>
+            </button>
         </div>
-        <div id="tempoButton" ng-controller="TapTempo">
-            <button id="tap" ng-click="tapTempo()" ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
+        <div id="tempoButton" data-ng-controller="TapTempo">
+            <button id="tap" data-ng-click="tapTempo()" data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
 					Tap Tempo
 				</button>
         </div>
         <div id="startStop">
-            <button id="startStopButton" ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
-                <i class="{{buttonClass}}" aria-hidden="true" ng-click="ctrl.changeStartStop()"></i>
+            <button id="startStopButton" data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
+                <i class="{{buttonClass}}" aria-hidden="true" data-ng-click="ctrl.changeStartStop()"></i>
             </button>
         </div>
-        <div id="message" ng-controller="TapTempo">
-            <span ng-class="{plain: 'blackFont', green: 'whiteFont',blue:'blackFont'}[style]">{{message.value}}</span>
+        <div id="message" data-ng-controller="TapTempo">
+            <span data-ng-class="{plain: 'blackFont', grayBlue: 'whiteFont',blue:'whiteFont'}[style]">{{message.value}}</span>
         </div>
     </div>
     <br />
-    <div id="api" ng-controller="APIController" class="blackFont">
+    <div id="api" data-ng-controller="APIController" class="blackFont">
         <div id="checkbox">
-            <input type="checkbox" ng-model="artistCheckBox" ng-change="changeRoute(artistCheckBox)" ng-true-value="artist" ng-false-value="notArtist">Lookup Tempo by Artist</input>
-            <input type="checkbox" ng-model="songTitleCheckBox" ng-change="changeRoute(songTitleCheckBox)" ng-true-value="song" ng-false-value="notSong">Lookup Tempo by Song Title</input>
+            <input type="checkbox" data-ng-model="artistCheckBox" data-ng-change="changeRoute(artistCheckBox)" data-ng-true-value="artist" data-ng-false-value="notArtist">Lookup Tempo by Artist</input>
+            <input type="checkbox" data-ng-model="songTitleCheckBox" data-ng-change="changeRoute(songTitleCheckBox)" data-ng-true-value="song" data-ng-false-value="notSong">Lookup Tempo by Song Title</input>
         </div>
         <br />
-        <div ng-view></div>
+        <div data-ng-view></div>
     </div>
 </body>
 
