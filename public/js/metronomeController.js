@@ -1,12 +1,36 @@
 var metronomeApp = angular.module('metronomeApp', ['ngRoute']);
 
-metronomeApp.controller('MainCtrl', ['$scope', function($scope) {
+metronomeApp.controller('MainCtrl', ['$scope', 'SubdivService', function($scope, SubdivService) {
+
+    var self = this;
+    var currentButtonIndex = 0;
 
     $scope.tempo = { value: 60 };
     $scope.style = 'plain';
     $scope.message = { value: '' };
+    $scope.notes = SubdivService.getNotes();
+    $scope.selectedNote = SubdivService.getSelectedNote();
     $scope.minTempo = 40;
     $scope.maxTempo = 208;
+
+    $scope.startStopButtons = [
+        { label: 'start', class: 'fa fa-play fa-2x', selected: 'NO' },
+        { label: 'stop', class: 'fa fa-stop fa-2x', selected: 'NO' }
+    ]
+
+    $scope.buttonClass = $scope.startStopButtons[0].class;
+
+    self.getNoteClass = function(status) {
+        return {
+            selectedNote: status,
+            notSelectedNote: !status
+        };
+    };
+
+    self.changeStartStop = function() {
+        currentButtonIndex = (currentButtonIndex + 1) % ($scope.startStopButtons.length);
+        $scope.buttonClass = $scope.startStopButtons[currentButtonIndex].class;
+    };
 
     $scope.$watch('tempo.value', function(val) {
         $scope.message.value = '';
@@ -14,61 +38,16 @@ metronomeApp.controller('MainCtrl', ['$scope', function($scope) {
     }, true);
 }]);
 
-metronomeApp.controller('SubdivisionController', ['$scope', function($scope) {
+metronomeApp.controller('SubdivController', ['$scope', 'SubdivService', function($scope, SubdivService) {
 
     var noteIndex = 0;
 
-    $scope.notes = [
-        { label: 'quarter', selected: true },
-        { label: 'eighth', selected: false },
-        { label: 'sixteenth', selected: false }
-    ]
-
     $scope.changeSubDiv = function() {
-        noteIndex = (noteIndex + 1) % ($scope.notes.length);
-        switch (noteIndex) {
-            case 0:
-                $scope.subDiv('quarter');
-                break;
-            case 1:
-                $scope.subDiv('eighth');
-                break;
-            case 2:
-                $scope.subDiv('sixteenth');
-                break;
-        }
+        SubdivService.changeSubDiv();
     }
 
     $scope.subDiv = function(value) {
-
-        switch (value) {
-            case 'quarter':
-                subdivision = 1;
-                $scope.notes[0].selected = true;
-                $scope.notes[1].selected = false;
-                $scope.notes[2].selected = false;
-                meter = 4;
-                strongBeat = 1;
-                weakBeat = 2;
-                break;
-            case 'eighth':
-                subdivision = 2;
-                $scope.notes[0].selected = false;
-                $scope.notes[1].selected = true;
-                $scope.notes[2].selected = false;
-                meter = 8;
-                strongBeat = 1;
-                weakBeat = 2;
-                break;
-            case 'sixteenth':
-                subdivision = 4;
-                $scope.notes[0].selected = false;
-                $scope.notes[1].selected = false;
-                $scope.notes[2].selected = true;
-                meter = 4;
-                strongBeat = 1;
-                weakBeat = 2;
-        }
+        SubdivService.subDiv();
     };
 }]);
 
