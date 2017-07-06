@@ -137,11 +137,15 @@ body {
     height: 60%;
     top: 10%;
     right: 15%;
-    line-height: 156px;
     width: 55%;
     margin: 0 auto;
     text-align: center;
-    /*border-radius: 5px;*/
+    line-height: 156px;
+}
+
+#screen div {
+    position: relative;
+    bottom: 65%;
 }
 
 #styleSelection {
@@ -241,4 +245,25 @@ tr {
     position: relative;
     top: 25%;
     text-align: center;
+}
+
+.subdivBox {
+    border-style: inset;
+    border-width: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.selectedNote {
+    background-color: #DADADC;
+    border-style: inset;
+    border-width: 1px;
+    padding: 0 3px 0 3px;
+}
+
+.notSelectedNote {
+    background-color: #FFF;
+    padding: 0 3px 0 3px;
+    border-style: outset;
+    border-width: 1px;
 }

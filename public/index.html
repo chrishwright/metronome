@@ -2,22 +2,27 @@
 <html ng-app="metronomeApp">
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-route.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
     <script src="js/metronomeController.js"></script>
     <script src="js/metronomeRoute.js"></script>
     <script src="js/metronomeService.js"></script>
+    <script src="js/metronomeRestService.js"></script>
     <script src="js/metronome.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/metronome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
 </head>
 
-<body ng-controller="MainCtrl" class="fontStyle">
+<body ng-controller="MainCtrl as ctrl" class="fontStyle">
     <div id="metronomeBody" ng-class="{plain: 'plain', green: 'green', blue: 'blue'}[style]">
         <div id="screen" ng-class="{plain: 'plainScreen', green: 'greenScreen', blue: 'blueScreen'}[style]">
             <span class="largeFont"><b>{{tempo.value}}</b></span>
             <span class="grayFont">bpm</span>
+            <div>
+                <span ng-repeat="note in notes" data-ng-class="ctrl.getNoteClass(note.selected)">{{note.label}}</span>
+            </div>
         </div>
         <div id="styleSelection">
             <select name="singleSelect" ng-model="style" id="selection" ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
@@ -32,7 +37,7 @@
             <input type="range" ng-model="tempo.value" max="{{maxTempo}}" min="{{minTempo}}" />
             <span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">{{maxTempo}}</span>
         </div>
-        <div id="notes" ng-controller="SubdivisionController">
+        <div id="notes" ng-controller="SubdivController">
             <span ng-class="{plain: 'blackFont', green: 'whiteFont', blue:'blackFont'}[style]">Subdivision</span>
             <button><i class="fa fa-circle" aria-hidden="true" ng-click="changeSubDiv()"></i></button>
         </div>
@@ -43,7 +48,7 @@
         </div>
         <div id="startStop">
             <button id="startStopButton" ng-class="{plain: 'plainButton', green: 'greenButton',blue:'blueButton'}[style]">
-                <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+                <i class="{{buttonClass}}" aria-hidden="true" ng-click="ctrl.changeStartStop()"></i>
             </button>
         </div>
         <div id="message" ng-controller="TapTempo">
