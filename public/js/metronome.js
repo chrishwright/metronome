@@ -53,7 +53,7 @@ function Click(context) {
         this.osc.frequency.exponentialRampToValueAtTime(0.001, time + 0.5);
         this.gain.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
         this.osc.start(time);
-        this.osc.stop(time + 0.7);
+        this.osc.stop(time + 0.5);
 
     };
 }; // end Click object constructor
