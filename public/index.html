@@ -39,8 +39,8 @@
         </div>
         <div id="notes" data-ng-controller="SubdivController">
             <span data-ng-class="{plain: 'blackFont', grayBlue: 'whiteFont', blue:'whiteFont'}[style]">Subdivision</span>
-            <button data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
-                <i class="fa fa-long-arrow-right" aria-hidden="true" data-ng-click="changeSubDiv()"></i>
+            <button data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]" data-ng-click="changeSubDiv()">
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
             </button>
         </div>
         <div id="tempoButton" data-ng-controller="TapTempo">
@@ -49,8 +49,8 @@
 				</button>
         </div>
         <div id="startStop">
-            <button id="startStopButton" data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]">
-                <i class="{{buttonClass}}" aria-hidden="true" data-ng-click="ctrl.changeStartStop()"></i>
+            <button id="startStopButton" data-ng-class="{plain: 'plainButton', grayBlue: 'grayBlueButton',blue:'blueButton'}[style]" data-ng-click="ctrl.changeStartStop()">
+                <i class="{{buttonClass}}" aria-hidden="true"></i>
             </button>
         </div>
         <div id="message" data-ng-controller="TapTempo">
