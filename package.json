@@ -1,6 +1,9 @@
 {
   "name": "metronome",
   "version": "1.0.0",
+  "engines": {
+    "node":"4.8.4"
+  },
   "description": "To run the application:",
   "main": "server.js",
   "scripts": {
